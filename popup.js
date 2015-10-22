@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
 
   console.log('Are you logged in? ' + isLoggedIn());
@@ -89,14 +91,14 @@ function login() {
   }).always(function(data) {
     console.log(JSON.stringify(data));
   });
-};
+}
 
 function logout() {
   console.log('-> logout');
   localStorage.removeItem('email');
   localStorage.removeItem('token');
   refreshForms();
-};
+}
 
 function addBookmark() {
   console.log('-> addBookmark');
@@ -122,12 +124,10 @@ function addBookmark() {
     });
 
   });
-};
+}
 
 window.addEventListener('click', function(e) {
   if (e.target.href !== undefined) {
-    chrome.tabs.create({
-      url: e.target.href
-    })
+    chrome.tabs.create({ url: e.target.href });
   }
 });
