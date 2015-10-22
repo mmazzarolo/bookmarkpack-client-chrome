@@ -97,6 +97,7 @@ function logout() {
   console.log('-> logout');
   localStorage.removeItem('email');
   localStorage.removeItem('token');
+  $("#list").empty();
   refreshForms();
 }
 
