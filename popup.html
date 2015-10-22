@@ -1,13 +1,33 @@
 <!doctype html>
 
-  <head>
-    <title>BookmarkPack</title>
-    <link href="style.css" rel="stylesheet" type="text/css">
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="popup.js"></script>
-  </head>
+<head>
+  <title>BookmarkPack</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="popup.js"></script>
+</head>
 
-  <body>
-    <ul id="list"></ul>
-  </body>
+<body>
+  <form id="loginForm">
+    Username:
+    <input type="text" name="email">
+    <br>
+    Password:
+    <input type="password" name="password">
+
+    <br>
+    <input type="submit" value="Submit">
+  </form>
+
+  <form id="logoutForm">
+    <input type="submit" value="Logout">
+  </form>
+
+  <form id="addBookmarkForm">
+    <input type="submit" value="Bookmark current tab">
+  </form>
+
+  <ul id="list"></ul>
+
+</body>
 </html>

@@ -10,14 +10,16 @@
 }
 
 ul {
+  padding: 3px;
+  border-top: 1px solid gainsboro;
   list-style-type: none;
   overflow: none;
 }
 
 li {
+  padding: 1px;
   display:flex;
   align-items:center;
-  padding: 3px;
   white-space: nowrap;
 }
 
@@ -26,7 +28,7 @@ li:hover {
 }
 
 li img {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 li a {
@@ -46,4 +48,21 @@ li a:hover {
 li.active a {
   font-weight: bold;
   color: #333;
+}
+
+#loginForm {
+  padding: 5px;
+  border-top: 1px solid gainsboro;
+}
+
+#addBookmarkForm {
+  text-align: center;
+  padding: 5px;
+  border-top: 1px solid gainsboro;
+}
+
+#logoutForm {
+  text-align: center;
+  padding: 5px;
+  border-top: 1px solid gainsboro;
 }
