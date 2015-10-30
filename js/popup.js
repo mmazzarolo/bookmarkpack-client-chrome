@@ -2,8 +2,6 @@
 
 $(document).ready(function() {
 
-  console.log('Are you logged in? ' + isLoggedIn());
-
   updateList();
 
   refreshForms();
@@ -13,33 +11,39 @@ $(document).ready(function() {
     event.preventDefault();
   });
 
-  $('#logoutForm').submit(function(event) {
+  $('#logoutButton').click(function() {
     logout();
-    event.preventDefault();
   });
 
-  $('#addBookmarkForm').submit(function(event) {
+  $('#addButton').click(function() {
     addBookmark();
-    event.preventDefault();
   });
+
 });
 
+/**
+ * Refresh page after login/logout
+ */
 function refreshForms() {
   if (isLoggedIn()) {
-    $('#loginForm').hide();
-    $('#logoutForm').show();
-    $('#addBookmarkForm').show();
+    $('#connected').show();
+    $('#disconnected').hide();
   } else {
-    $('#loginForm').show();
-    $('#logoutForm').hide();
-    $('#addBookmarkForm').hide();
+    $('#connected').hide();
+    $('#disconnected').show();
   }
 }
 
+/**
+ * Check if the user is logged in
+ */
 function isLoggedIn() {
-  return (localStorage.getItem('token'));
+  return (localStorage.getItem('token') != null);
 }
 
+/**
+ * Update bookmarks list
+ */
 function updateList() {
   console.log('-> updateList');
   if (isLoggedIn()) {
@@ -48,27 +52,28 @@ function updateList() {
 
     $.ajax({
       type: 'GET',
-      url: 'http://localhost:3000/user',
+      url: 'http://localhost:3000/user/bookmarks',
       beforeSend: function (request) {
         request.setRequestHeader('authorization', authToken);
       }
     }).done(function(data) {
       console.log('Done');
-      $.each(data.bookmarks, function(key, val) {
+      $.each(data, function(key, val) {
         appendToList(val);
       });
     }).fail(function() {
       console.log('Fail');
-    }).always(function(data) {
-      console.log(JSON.stringify(data));
     });
   }
 }
 
 function appendToList(bookmark) {
-  $("#list").append("<li><img src='" + bookmark.favicon + "''><a class='url' href='" + bookmark.url + "'>" + bookmark.name + "</a> ");
+  $("#list").append("<li class=''><div id='img-container'><img src='" + bookmark.favicon + "''></div><a class='url' href='" + bookmark.url + "'>" + bookmark.name + "</a> ");
 }
 
+/**
+ * Perform login
+ */
 function login() {
   console.log('-> login');
   var formData = {
@@ -88,11 +93,12 @@ function login() {
     updateList();
   }).fail(function() {
     console.log('Fail');
-  }).always(function(data) {
-    console.log(JSON.stringify(data));
   });
 }
 
+/**
+ * Perform logout
+ */
 function logout() {
   console.log('-> logout');
   localStorage.removeItem('email');
@@ -101,15 +107,18 @@ function logout() {
   refreshForms();
 }
 
+/**
+ * Add a new bookmark
+ */
 function addBookmark() {
   console.log('-> addBookmark');
   chrome.tabs.getSelected(null, function(tab) {
-    var bookmark = { url: tab.url };
+    var bookmark = { url: tab.url, name: tab.title };
     var authToken = 'Bearer ' + localStorage.getItem('token');
 
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/user/bookmarks',
+      url: 'http://localhost:3000/user/bookmarks?extract[]=favicon',
       data: bookmark,
       encode: true,
       beforeSend: function (request) {
@@ -120,13 +129,14 @@ function addBookmark() {
       appendToList(data);
     }).fail(function() {
       console.log('Fail');
-    }).always(function(data) {
-      console.log(JSON.stringify(data));
     });
 
   });
 }
 
+/**
+ * Restore the default click handler
+ */
 window.addEventListener('click', function(e) {
   if (e.target.href !== undefined) {
     chrome.tabs.create({ url: e.target.href });
