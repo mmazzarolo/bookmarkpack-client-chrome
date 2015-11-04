@@ -2,7 +2,7 @@
 
 A Chrome extension that works as a client for [BookmarkPack server](https://github.com/mmazzarolo/bookmarkpack-server).
 
-Please don't mind the style and the code: at moment is a really messy because I'm using this extension just for testing the REST API.
+Please don't mind the style and the code: it's really messy. I'm using this extension just for testing the REST API.
 
 <br />  
 
